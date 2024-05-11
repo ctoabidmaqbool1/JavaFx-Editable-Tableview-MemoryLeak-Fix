@@ -20,6 +20,9 @@ import one.jpro.platform.treeshowing.TreeShowing;
 
 public class HelloApplication extends Application {
 
+    ObservableList<Person> data = FXCollections.observableArrayList();
+    int rowId = 1;
+
     @Override
     public void start(Stage stage) {
         VBox vbxRoot = new VBox(10);
@@ -49,21 +52,22 @@ public class HelloApplication extends Application {
         stage.show();
 
         btnAdd.setOnAction(event -> {
-            btnClear.fire();
             tblPerson.setItems(getData());
         });
 
-        btnClear.setOnAction(event -> tblPerson.getItems().clear());
+        btnClear.setOnAction(event -> {
+            data.clear();
+            rowId = 1;
+        });
     }
 
     private ObservableList<Person> getData() {
-        ObservableList<Person> data = FXCollections.observableArrayList();
-
-        for (int i = 1; i <= 40; i++) {
+        for (int i = rowId; i < rowId + 20; i++) {
             Person person = getPerson(i, "", "");
 
             data.add(person);
         }
+        rowId += 20;
 
         return data;
     }
